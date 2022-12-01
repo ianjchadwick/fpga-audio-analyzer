@@ -23,7 +23,7 @@ begin
 clk = 0;
 enable = 1;
 start = 0;           
-ref_freq_in = 15'd8000;
+ref_freq_in = 15'd27;
 sung_freq_in = 15'd880;
 start = 1;
 #10
