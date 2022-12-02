@@ -6,6 +6,8 @@ input clk,
       start,               //Signal that the next frequency is ready
 input [14:0] sung_freq_in, //15 bits in Hz
              ref_freq_in,
+output reg rd_en = 1'b0,
+output reg score_ready = 1'b0,             
 output reg [3:0] score = 4'd0);
 
 localparam
@@ -22,7 +24,7 @@ reg [2:0] counter = 3'd0;
 reg [2:0] STATE   = 3'd0;
 reg [3:0] ref_oct = 4'd0;
 
-reg [14:0] octaves [8:0];
+reg [14:0] octave [8:0];
 
 reg [14:0] sung_in_reg = 15'd0,
            ref_in_reg  = 15'd0,
@@ -55,6 +57,7 @@ case(STATE)
    IDLE: begin
            //Reset registers
            ref_oct     <= 4'd0;
+           score_ready <= 1'b0;
            oct_above0  <= 15'd0;
            oct_above1  <= 15'd0;
            oct_above2  <= 15'd0;
@@ -77,7 +80,8 @@ case(STATE)
             if(start)
                 begin
                     ref_in_reg <= ref_freq_in;   //get note to compare against
-                    sung_in_reg <= sung_freq_in; //get note that was sung
+                    sung_in_reg <= sung_freq_in; //get note that was sung\
+                    rd_en <= 1'b1;
                     STATE <= OCTAVES;
                 end
             else
@@ -89,6 +93,7 @@ case(STATE)
    OCTAVES: begin
               
               STATE <= CENTER;
+              rd_en <= 1'b0;
               
               //Figure out what octave reference note is in
               if(ref_in_reg > 15'd4_000)
@@ -210,144 +215,158 @@ case(STATE)
                     oct_below0 <= 15'd0;
             end//OCTAVES
      
+     //Center octave frequencies found in previous step into the correct bin for scoring purposes
      CENTER: begin
                 STATE <= SCORE;
                 case(ref_oct)
                 4'd0: begin
-                      octaves[0] <= ref_in_reg;
-                      octaves[1] <= oct_above0;
-                      octaves[2] <= oct_above1;
-                      octaves[3] <= oct_above2;
-                      octaves[4] <= oct_above3;
-                      octaves[5] <= oct_above4;
-                      octaves[6] <= oct_above5;
-                      octaves[7] <= oct_above6;
-                      octaves[8] <= oct_above7;
+                      octave[0] <= ref_in_reg;
+                      octave[1] <= oct_above0;
+                      octave[2] <= oct_above1;
+                      octave[3] <= oct_above2;
+                      octave[4] <= oct_above3;
+                      octave[5] <= oct_above4;
+                      octave[6] <= oct_above5;
+                      octave[7] <= oct_above6;
+                      octave[8] <= oct_above7;
                       end
                 4'd1: begin
-                      octaves[0] <= oct_below0;
-                      octaves[1] <= ref_in_reg;
-                      octaves[2] <= oct_above0;
-                      octaves[3] <= oct_above1;
-                      octaves[4] <= oct_above2;
-                      octaves[5] <= oct_above3;
-                      octaves[6] <= oct_above4;
-                      octaves[7] <= oct_above5;
-                      octaves[8] <= oct_above6;
+                      octave[0] <= oct_below0;
+                      octave[1] <= ref_in_reg;
+                      octave[2] <= oct_above0;
+                      octave[3] <= oct_above1;
+                      octave[4] <= oct_above2;
+                      octave[5] <= oct_above3;
+                      octave[6] <= oct_above4;
+                      octave[7] <= oct_above5;
+                      octave[8] <= oct_above6;
                       end
                 4'd2: begin
-                      octaves[0] <= oct_below1;
-                      octaves[1] <= oct_below0;
-                      octaves[2] <= ref_in_reg;
-                      octaves[3] <= oct_above0;
-                      octaves[4] <= oct_above1;
-                      octaves[5] <= oct_above2;
-                      octaves[6] <= oct_above3;
-                      octaves[7] <= oct_above4;
-                      octaves[8] <= oct_above5;
+                      octave[0] <= oct_below1;
+                      octave[1] <= oct_below0;
+                      octave[2] <= ref_in_reg;
+                      octave[3] <= oct_above0;
+                      octave[4] <= oct_above1;
+                      octave[5] <= oct_above2;
+                      octave[6] <= oct_above3;
+                      octave[7] <= oct_above4;
+                      octave[8] <= oct_above5;
                       end
                 4'd3: begin
-                      octaves[0] <= oct_below2;
-                      octaves[1] <= oct_below1;
-                      octaves[2] <= oct_below0;
-                      octaves[3] <= ref_in_reg;
-                      octaves[4] <= oct_above0;
-                      octaves[5] <= oct_above1;
-                      octaves[6] <= oct_above2;
-                      octaves[7] <= oct_above3;
-                      octaves[8] <= oct_above4;
+                      octave[0] <= oct_below2;
+                      octave[1] <= oct_below1;
+                      octave[2] <= oct_below0;
+                      octave[3] <= ref_in_reg;
+                      octave[4] <= oct_above0;
+                      octave[5] <= oct_above1;
+                      octave[6] <= oct_above2;
+                      octave[7] <= oct_above3;
+                      octave[8] <= oct_above4;
                       end
                 4'd4: begin
-                      octaves[0] <= oct_below3;
-                      octaves[1] <= oct_below2;
-                      octaves[2] <= oct_below1;
-                      octaves[3] <= oct_below0;
-                      octaves[4] <= ref_in_reg;
-                      octaves[5] <= oct_above0;
-                      octaves[6] <= oct_above1;
-                      octaves[7] <= oct_above2;
-                      octaves[8] <= oct_above3;
+                      octave[0] <= oct_below3;
+                      octave[1] <= oct_below2;
+                      octave[2] <= oct_below1;
+                      octave[3] <= oct_below0;
+                      octave[4] <= ref_in_reg;
+                      octave[5] <= oct_above0;
+                      octave[6] <= oct_above1;
+                      octave[7] <= oct_above2;
+                      octave[8] <= oct_above3;
                       end
                 4'd5: begin
-                      octaves[0] <= oct_below4;
-                      octaves[1] <= oct_below3;
-                      octaves[2] <= oct_below2;
-                      octaves[3] <= oct_below1;
-                      octaves[4] <= oct_below0;
-                      octaves[5] <= ref_in_reg;
-                      octaves[6] <= oct_above0;
-                      octaves[7] <= oct_above1;
-                      octaves[8] <= oct_above2;
+                      octave[0] <= oct_below4;
+                      octave[1] <= oct_below3;
+                      octave[2] <= oct_below2;
+                      octave[3] <= oct_below1;
+                      octave[4] <= oct_below0;
+                      octave[5] <= ref_in_reg;
+                      octave[6] <= oct_above0;
+                      octave[7] <= oct_above1;
+                      octave[8] <= oct_above2;
                       end
                 4'd6: begin
-                      octaves[0] <= oct_below5;
-                      octaves[1] <= oct_below4;
-                      octaves[2] <= oct_below3;
-                      octaves[3] <= oct_below2;
-                      octaves[4] <= oct_below1;
-                      octaves[5] <= oct_below0;
-                      octaves[6] <= ref_in_reg;
-                      octaves[7] <= oct_above0;
-                      octaves[8] <= oct_above1;
+                      octave[0] <= oct_below5;
+                      octave[1] <= oct_below4;
+                      octave[2] <= oct_below3;
+                      octave[3] <= oct_below2;
+                      octave[4] <= oct_below1;
+                      octave[5] <= oct_below0;
+                      octave[6] <= ref_in_reg;
+                      octave[7] <= oct_above0;
+                      octave[8] <= oct_above1;
                       end
                 4'd6: begin
-                      octaves[0] <= oct_below6;
-                      octaves[1] <= oct_below5;
-                      octaves[2] <= oct_below4;
-                      octaves[3] <= oct_below3;
-                      octaves[4] <= oct_below2;
-                      octaves[5] <= oct_below1;
-                      octaves[6] <= oct_below0;
-                      octaves[7] <= ref_in_reg;
-                      octaves[8] <= oct_above0;
+                      octave[0] <= oct_below6;
+                      octave[1] <= oct_below5;
+                      octave[2] <= oct_below4;
+                      octave[3] <= oct_below3;
+                      octave[4] <= oct_below2;
+                      octave[5] <= oct_below1;
+                      octave[6] <= oct_below0;
+                      octave[7] <= ref_in_reg;
+                      octave[8] <= oct_above0;
                       end
                 4'd7: begin
-                      octaves[0] <= oct_below7;
-                      octaves[1] <= oct_below6;
-                      octaves[2] <= oct_below5;
-                      octaves[3] <= oct_below4;
-                      octaves[4] <= oct_below3;
-                      octaves[5] <= oct_below2;
-                      octaves[6] <= oct_below1;
-                      octaves[7] <= oct_below0;
-                      octaves[8] <= ref_in_reg;
+                      octave[0] <= oct_below7;
+                      octave[1] <= oct_below6;
+                      octave[2] <= oct_below5;
+                      octave[3] <= oct_below4;
+                      octave[4] <= oct_below3;
+                      octave[5] <= oct_below2;
+                      octave[6] <= oct_below1;
+                      octave[7] <= oct_below0;
+                      octave[8] <= ref_in_reg;
                       end   
                 endcase
              end
      
      SCORE: begin
-            
-            //Full points if it equals the ref frequency or any of the same notes in different octaves
-            if ((sung_in_reg == ref_in_reg) ||
-                ((oct_above0 != 15'd0) && (sung_in_reg == oct_above0)) ||
-                ((oct_above1 != 15'd0) && (sung_in_reg == oct_above1)) ||
-                ((oct_above2 != 15'd0) && (sung_in_reg == oct_above2)) ||
-                ((oct_above3 != 15'd0) && (sung_in_reg == oct_above3)) ||
-                ((oct_above4 != 15'd0) && (sung_in_reg == oct_above4)) ||
-                ((oct_above5 != 15'd0) && (sung_in_reg == oct_above5)) ||
-                ((oct_above6 != 15'd0) && (sung_in_reg == oct_above6)) ||
-                ((oct_above7 != 15'd0) && (sung_in_reg == oct_above7)) ||
-                ((oct_above8 != 15'd0) && (sung_in_reg == oct_above8)) ||
-                ((oct_below0 != 15'd0) && (sung_in_reg == oct_below0)) ||
-                ((oct_below1 != 15'd0) && (sung_in_reg == oct_below1)) ||
-                ((oct_below2 != 15'd0) && (sung_in_reg == oct_below2)) ||
-                ((oct_below3 != 15'd0) && (sung_in_reg == oct_below3)) ||
-                ((oct_below4 != 15'd0) && (sung_in_reg == oct_below4)) ||
-                ((oct_below5 != 15'd0) && (sung_in_reg == oct_below5)) ||
-                ((oct_below6 != 15'd0) && (sung_in_reg == oct_below6)) ||
-                ((oct_below7 != 15'd0) && (sung_in_reg == oct_below7)) ||
-                ((oct_below8 != 15'd0) && (sung_in_reg == oct_below8))
-                )
+            STATE <= IDLE;
+            //Full points if it equals the ref frequency or any of the same notes in different octaves +/- acceptable band for the note
+            if ((sung_in_reg == octave[0]) ||
+                ((sung_in_reg >= octave[1]-15'd1) && (sung_in_reg <= octave[1]+15'd1)) ||
+                ((sung_in_reg >= octave[2]-15'd2) && (sung_in_reg <= octave[2]+15'd2)) ||
+                ((sung_in_reg >= octave[3]-15'd4) && (sung_in_reg <= octave[3]+15'd4)) ||
+                ((sung_in_reg >= octave[4]-15'd8) && (sung_in_reg <= octave[4]+15'd8)) ||
+                ((sung_in_reg >= octave[5]-15'd16) && (sung_in_reg <= octave[5]+15'd16)) ||
+                ((sung_in_reg >= octave[6]-15'd32) && (sung_in_reg <= octave[6]+15'd32)) ||
+                ((sung_in_reg >= octave[7]-15'd64) && (sung_in_reg <= octave[7]+15'd64)) ||
+                ((sung_in_reg >= octave[8]-15'd128) && (sung_in_reg <= octave[8]+15'd128)))
                 begin
                     score <= 4'd10;
-                    //STATE <= IDLE;
-                end//Full Points if 
-     
+                end//Full Points
+            
+            //Partial points teir 1
+            else if(((sung_in_reg >= octave[1]-15'd2) && (sung_in_reg <= octave[1]+15'd2)) ||
+                    ((sung_in_reg >= octave[2]-15'd5) && (sung_in_reg <= octave[2]+15'd5)) ||
+                    ((sung_in_reg >= octave[3]-15'd10) && (sung_in_reg <= octave[3]+15'd10)) ||
+                    ((sung_in_reg >= octave[4]-15'd26) && (sung_in_reg <= octave[4]+15'd26)) ||
+                    ((sung_in_reg >= octave[5]-15'd43) && (sung_in_reg <= octave[5]+15'd43)) ||
+                    ((sung_in_reg >= octave[6]-15'd86) && (sung_in_reg <= octave[6]+15'd86)) ||
+                    ((sung_in_reg >= octave[7]-15'd173) && (sung_in_reg <= octave[7]+15'd173)) ||
+                    ((sung_in_reg >= octave[8]-15'd346) && (sung_in_reg <= octave[8]+15'd346)))
+                begin
+                    score <= 4'd7;
+                end//Teir 1
+             
+            //Partial points teir 2
+            else if(((sung_in_reg >= octave[3]-15'd12) && (sung_in_reg <= octave[3]+15'd12)) ||
+                    ((sung_in_reg >= octave[4]-15'd55) && (sung_in_reg <= octave[4]+15'd55)) ||
+                    ((sung_in_reg >= octave[5]-15'd86) && (sung_in_reg <= octave[5]+15'd86)) ||
+                    ((sung_in_reg >= octave[6]-15'd128) && (sung_in_reg <= octave[6]+15'd128)) ||
+                    ((sung_in_reg >= octave[7]-15'd215) && (sung_in_reg <= octave[7]+15'd215)) ||
+                    ((sung_in_reg >= octave[8]-15'd650) && (sung_in_reg <= octave[8]+15'd650)))
+                begin
+                    score <= 4'd5;
+                end//Teir 2
+            else
+                score <= 4'd0;
+            score_ready <= 1'b1;                                
             end//SCORE
             
      FINISH: begin
-           
-           STATE <=IDLE;
+                STATE <=IDLE;
              end
 
 endcase

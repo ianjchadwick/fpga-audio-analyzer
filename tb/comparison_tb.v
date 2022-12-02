@@ -22,11 +22,34 @@ initial
 begin
 clk = 0;
 enable = 1;
-start = 0;           
-ref_freq_in = 15'd27;
-sung_freq_in = 15'd880;
-start = 1;
-#10
+ref_freq_in = 15'd432; //alternate tuning for middle A (A4)
+sung_freq_in = 15'd880; //A5
+start = 1;              //want score = 10
+#10;
 start =0;
+#50;
+ref_freq_in = 15'd440; //A4
+sung_freq_in = 15'd880; //A5
+start = 1;              //want score = 10
+#10;
+start = 0;
+#50;
+ref_freq_in = 15'd440; //A4
+sung_freq_in = 15'd493; //B4
+start = 1;              //want score = 5
+#10;
+start = 0;
+#50;
+ref_freq_in = 15'd440; //A4
+sung_freq_in = 15'd466; //A4#
+start = 1;              //want score = 7
+#10;
+start = 0;
+#50;
+ref_freq_in = 15'd440; //A4
+sung_freq_in = 15'd466; //A4#
+start = 1;              //want score = 7
+#10;
+start = 0;
 end
 endmodule
