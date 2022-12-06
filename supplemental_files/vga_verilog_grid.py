@@ -1,6 +1,4 @@
 import string
-
-
 if __name__ == "__main__":
     
     vga_hcnt = "vga_hcnt"
@@ -14,8 +12,6 @@ if __name__ == "__main__":
     row_num = 15
 
     v_step_size = 5
-
-
 
     r_on_color = "BOT_R_ON"
     g_on_color = "BOT_G_ON"
