@@ -286,17 +286,6 @@ case(STATE)
                       octave[8] <= oct_above2;
                       end
                 4'd6: begin
-                      octave[0] <= oct_below5;
-                      octave[1] <= oct_below4;
-                      octave[2] <= oct_below3;
-                      octave[3] <= oct_below2;
-                      octave[4] <= oct_below1;
-                      octave[5] <= oct_below0;
-                      octave[6] <= ref_in_reg;
-                      octave[7] <= oct_above0;
-                      octave[8] <= oct_above1;
-                      end
-                4'd6: begin
                       octave[0] <= oct_below6;
                       octave[1] <= oct_below5;
                       octave[2] <= oct_below4;

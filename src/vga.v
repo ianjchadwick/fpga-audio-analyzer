@@ -58,7 +58,7 @@ endmodule
 
 
 // top module that instantiate the VGA controller and generate images
-module top(
+module vga_top(
     input clk,
     input [3:0] score,
     output reg [3:0] VGA_R,
@@ -435,7 +435,7 @@ always @(*) begin
         VGA_B = 4'h2;
         
         
-                    if ( ( (vga_hcnt >= 241) && (vga_hcnt <= 245)) &&
+            if ( ( (vga_hcnt >= 241) && (vga_hcnt <= 245)) &&
                 ( (vga_vcnt >= 1) && (vga_vcnt <= 5) ) ) begin
             if(top_row0[47] == 1'b1)
                 begin
