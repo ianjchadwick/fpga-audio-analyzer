@@ -45,7 +45,9 @@ Component one was based off of the demo from the digilent site which provided th
 
 We had to modify the circuit quite a bit in order for the ADC to capture the full range of sound because the input voltage was too high for the ADC on the board. The ADC is baised at .5 volts and the input voltage was around 3V. This caused the input to occassionally be out of range of the ADC. This caused the sound to be very quiet and distorted because it was capturing only a percentage of the full audio signal. It was critical to fix this problem because if we were not able to capture the audio input, we would not get an accurate frequency out of the FFT.
 
-Once we were able to get the audio input working correctly, we moved on to work on other parts of the project. This meant that we didn't get a chance to return and modify the code from the demo to fit into the workflow. It would be one of the first things we would work on if we had a little more time.
+![alt text](https://github.com/ianjchadwick/551_Project/blob/main/supplemental_files/presentation%20pictures/customized_circuit.jpg?raw=true "Circuit for ADC Input")
+
+Once we were able to get the audio input working correctly, we moved on to work on the other components of the project. This meant that we didn't get a chance to return and modify the code from the demo to fit into the workflow. It would be one of the first things we would work on if we had a little more time.
 
 ### Component 2: DIT FFT
 
