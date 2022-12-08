@@ -35,6 +35,8 @@ In order to accomplish the goal, the design had to:
 ### Krazy Karaoke Diagram
 ![alt text](https://github.com/ianjchadwick/551_Project/blob/main/supplemental_files/schematics%20and%20diagrams/Final%20Krazy%20Karaoke%20High%20Level%20Diagram.jpeg?raw=true "Krazy Karaoke Diagram")
 
+In the beginning, we explored several different ways to accomplish the goal of comparing audio signals
+
 The design can be broken down into three core components of the overall workflow:
 - Component 1: Getting analog sound waves to block RAM
 - Component 2: Converting digitized audio into a frequency
@@ -49,7 +51,9 @@ We had to modify the circuit quite a bit in order for the ADC to capture the ful
 
 Once we were able to get the audio input working correctly, we moved on to work on the other components of the project. This meant that we didn't get a chance to return and modify the code from the demo to fit into the workflow. It would be one of the first things we would work on if we had a little more time.
 
-### Component 2: DIT FFT
+### Component 2: FFT
+
+Our original plan was to use the Xilinx IP cores to do the FFT, however it turned out that they used the AXI interface, which was intended to be used with the MicroBlaze soft microprocessor and the Vivado SDK. We spent some time exploring this idea but it seemed to be a little bit beyond the scope of what we would realistically have time to learn and implement in the time we had.
 
 
 
