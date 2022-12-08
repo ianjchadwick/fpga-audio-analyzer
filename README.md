@@ -89,6 +89,6 @@ The scoring state machine was designed to try and calculate as many of the value
 
 ![alt text](https://github.com/ianjchadwick/551_Project/blob/main/supplemental_files/presentation%20pictures/game_screen_annotated.jpg?raw=true, "VGA Display")
 
-The VGA code to make the grid for displaying the score was coded manually the first time, which was a very long and tedious process. So we decided to write a python script to write the code for the rest of the grids that we wanted to make. The vga_verilog_grid.py script can be found in the supplemental files folder. It can be modified to produce verilog code for any NxM matrix. Then you would just set the bits in corresponding registers for each cell of the matrix to control the 'pixel'.
+The first time we wrote VGA code to make a grid for displaying the score we coded it manually, which was a very long and tedious process. So we decided to write a python script to write the code for the rest of the grids that we wanted to make. The vga_verilog_grid.py script can be found in the supplemental files folder. It can be modified to produce verilog code for any NxM matrix. Then you would just set the bits in corresponding registers for each cell of the matrix to control the 'pixel'.
 
 
