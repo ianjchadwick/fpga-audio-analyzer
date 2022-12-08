@@ -10,8 +10,9 @@ We decided to create a Karaoke game because that would let us learn to use:
 - VGA
 - Audio Output
 
-We thought Krazy Karaoke would be a fun and interactive way to show these features that could also be played as an actual game.
-The project could also be generalized to frequency (pitch) detection hardware
+We thought Krazy Karaoke would be a fun and interactive way to show these features that could also be played as an actual game. The project could also be generalized to frequency (pitch) detection hardware.
+
+Unfortunately we ran out of time in the semester to completely integrate all components together to create a fully functional karaoke game like we had hoped, but we completed several of the core components and have a solid framework for the components that we need to work on. We will discuss these completed modules and explain what we would like to do to work on the project further.
 
 ## High-Level Overview of Functionality
 
@@ -39,9 +40,14 @@ The design can be broken down into three core components of the overall workflow
 - Component 2: Converting digitized audio into a frequency
 - Component 3: Comparing and scoring frequencies
 
-### Component 1:
+### Component 1: Digitizing the Audio Signal
+Component one was based off of the demo from the digilent site which provided the basis for the ADC->Memory component of the workflow [Link to the project wiki](https://reference.digilentinc.com/learn/programmable-logic/tutorials/nexys-4-ddr-looper-demo/start)
 
-### Component 2:
+We had to modify the circuit quite a bit in order for the ADC to capture the full range of sound because the input voltage was too high for the ADC on the board. The ADC is baised at .5 volts and the input voltage was around 3V. This caused the input to occassionally be out of range of the ADC. This caused the sound to be very quiet and distorted because it was capturing only a percentage of the full audio signal. It was critical to fix this problem because if we were not able to capture the audio input, we would not get an accurate frequency out of the FFT.
+
+Once we were able to get the audio input working correctly, we moved on to work on other parts of the project. This meant that we didn't get a chance to return and modify the code from the demo to fit into the workflow. It would be one of the first things we would work on if we had a little more time.
+
+### Component 2: DIT FFT
 
 ### Component 3: Comparing and Scoring
 #### The flow of the comparing and scoring algorithm is as follows:
