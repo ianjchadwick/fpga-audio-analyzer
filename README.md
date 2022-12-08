@@ -56,9 +56,12 @@ Once we were able to get the audio input working correctly, we moved on to work 
 Our original plan was to use the Xilinx IP cores to do the FFT, however it turned out that they used the AXI interface, which was intended to be used with the MicroBlaze soft microprocessor and the Vivado SDK. We spent some time exploring this idea but it seemed to be a little bit beyond the scope of what we would realistically have time to learn and implement in the time we had.
 
 
+![alt_text](https://github.com/ianjchadwick/551_Project/blob/main/supplemental_files/presentation%20pictures/microblaze_example.jpg?raw=true "MicroBlaze Example")
 
+While the idea of instantiating a co-processor with its own program running on an iternal flash memory was pretty interesting, we felt that would be a different kind of project than we originally wanted to do, and so we decided to pivot to a DIT FFT algorithm.
 
 ### Component 3: Comparing and Scoring
+
 #### The flow of the comparing and scoring algorithm is as follows:
 1. The FFT module will output into one of two FIFOs. 
 2. First, during the portion of the game where the reference song is being recorded and  then transformed, the resulting frequencies go into the reference FIFO
