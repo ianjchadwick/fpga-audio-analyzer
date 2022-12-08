@@ -53,7 +53,9 @@ The design can be broken down into three core components of the overall workflow
 6. In the OCTAVES state, the octave of the reference frequency is determined. At the same time all the notes in the octave above and below the reference note are then calculated (using bit shift multiplication). This is completed in one clock cycle.
 7. The next state is the CENTER state where the frequencies of the notes from the previous step are then put into the appropriate octave bins.
 8. In the final SCORE state, the sung frequency is then compared to each of these bins +/- an accepted range and an output score is calculated. The accepted range for each score bracket depends on the octave. Notes in the lower octaves (0, 1, etc.) are closer in frequency to eachother than notes at higher octaves (8, 7, etc.). So to compensate the allowed range is adjusted according to the note spacing in the spectrum of frequncies. 
-- The output score is then captured by a tally module, which keeps the average. This average is then output to the VGA display.
+9. The output score is then captured by a tally module, which keeps the average. This average is then output to the VGA display.
+
+
 ![alt text](https://github.com/ianjchadwick/551_Project/blob/main/supplemental_files/schematics%20and%20diagrams/score_and_fifos.JPG?raw=true "FIFOs, Score Module and Tally Module")
 
 The scoring state machine was designed to try and calculate as many of the values as possible each clock cycle to reduce the total number of cylces required to correctly compare and score two input frequncies. The diagram below is a high level overview of the the state machine and the steps performed in each state/clock cycle.
