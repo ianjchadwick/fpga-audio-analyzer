@@ -51,6 +51,9 @@ Once we were able to get the audio input working correctly, we moved on to work 
 
 ### Component 2: DIT FFT
 
+
+
+
 ### Component 3: Comparing and Scoring
 #### The flow of the comparing and scoring algorithm is as follows:
 1. The FFT module will output into one of two FIFOs. 
