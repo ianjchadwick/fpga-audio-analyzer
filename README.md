@@ -51,6 +51,9 @@ We had to modify the circuit quite a bit in order for the ADC to capture the ful
 
 Once we were able to get the audio input working correctly, we moved on to work on the other components of the project. This meant that we didn't get a chance to return and modify the code from the demo to fit into the workflow. It would be one of the first things we would work on if we had a little more time.
 
+https://user-images.githubusercontent.com/74579395/206741989-819ee261-a287-40e4-8e46-01d13e68be08.MOV
+
+
 ### Component 2: FFT
 
 Our original plan was to use the Xilinx IP cores to do the FFT, however it turned out that they used the AXI interface, which was intended to be used with the MicroBlaze soft microprocessor and the Vivado SDK. We spent some time exploring this idea and how to use them.
@@ -59,7 +62,7 @@ Our original plan was to use the Xilinx IP cores to do the FFT, however it turne
 
 However, while the idea of instantiating a co-processor with its own program running on an iternal flash memory was pretty interesting, it seemed to be a little bit beyond the scope of what we would realistically have time to learn and implement in the time we had. So, we decided to pivot to a DIT FFT algorithm.
 
-![alt_text](https://github.com/ianjchadwick/551_Project/tree/main/supplemental_files/schematics%20and%20diagrams/signal_processing_schematic.jpg?raw=true "Design Flow of Signal Processing Hardware")
+![signal_processing_schematic](https://user-images.githubusercontent.com/74579395/206741555-07f534fb-97be-422e-8a17-017766c82d49.JPG)
 
 ### Component 3: Comparing and Scoring
 
