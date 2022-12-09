@@ -59,6 +59,8 @@ Our original plan was to use the Xilinx IP cores to do the FFT, however it turne
 
 However, while the idea of instantiating a co-processor with its own program running on an iternal flash memory was pretty interesting, it seemed to be a little bit beyond the scope of what we would realistically have time to learn and implement in the time we had. So, we decided to pivot to a DIT FFT algorithm.
 
+![alt_text](https://github.com/ianjchadwick/551_Project/tree/main/supplemental_files/schematics%20and%20diagrams/signal_processing_schematic.jpg?raw=true "Design Flow of Signal Processing Hardware")
+
 ### Component 3: Comparing and Scoring
 
 #### The flow of the comparing and scoring algorithm is as follows:
